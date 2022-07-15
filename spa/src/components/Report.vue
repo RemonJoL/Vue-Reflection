@@ -1,10 +1,23 @@
 <template>
-  <div>
-    <router-link v-bind:to="'/weather'">Back to Locations</router-link>
+  <div class="content-inner">
+    <router-link v-bind:to="'/weather'" class="backLink">Back to Locations</router-link>
     <h1>{{Location}} Atmospheric Condition Data</h1>
+    <div class="ReportNav">
+      <h2>Quick Navigation</h2>
+      <h4>
+        <a href="#basicReport">Basic 7-Day Forecast</a>
+        <a href="#advancedReport">Advanced Report of Current Conditions</a>
+      </h4>
+    </div>
+    <!-- Report Container Outer -->
     <div class="reportContainer-outer">
-      <h2>Basic 7-Day Forecast</h2>
+
+      <!-- Basic Report Section -->
+      <h2 id="basicReport">Basic 7-Day Forecast</h2>
       <DailyForecastCard v-bind:basicWeather="this.basicWeather" />
+      <router-link v-bind:to="'/weather'" class="backLink">Back to Locations</router-link>
+      <!-- Basic Report Section End -->
+      <!-- Advanced Report Section -->
       <h2>Detailed Forecast</h2>
       <div id="advancedReport" class="advancedReportContainer">
         <div id="Temperature" class="detailedDataCard">
@@ -117,7 +130,11 @@
           </div>
         </div>
       </div>
+      <router-link v-bind:to="'/weather'" class="backLink">Back to Locations</router-link>
+      <!-- Advanced Report Section End -->
+
     </div>
+    <!-- Report Container Outer End -->
   </div>
 </template>
 
@@ -390,8 +407,25 @@ export default {
     margin: 0 10px;
   }
 
-  a {
-    color: #42b983;
+  .backLink {
+    width: max-content;
+    margin: 1rem auto;
+    padding: 5px;
+  }
+
+  .content-inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ReportNav {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    padding: 15px 30px;
+    width: fit-content;
+    margin: 80px auto;
+    border-radius: 3px;
   }
 
   .reportContainer-outer,
