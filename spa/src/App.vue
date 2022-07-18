@@ -108,4 +108,13 @@
   .robco-msg {
       display: block;
   }
+
+  .errorMessage {
+    border: 1px solid;
+    padding: 50px;
+  }
+
+  .disclaimer {
+    font-size: 0.8rem;
+  }
 </style>

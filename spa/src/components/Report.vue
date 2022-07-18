@@ -14,12 +14,13 @@
 
       <!-- Basic Report Section -->
       <h2 id="basicReport">Basic 7-Day Forecast</h2>
-      <DailyForecastCard v-bind:basicWeather="this.basicWeather" />
+      <DailyForecastCard v-bind:basicWeather="this.basicWeather" v-bind:errorMessage="this.errorMessage" />
       <router-link v-bind:to="'/weather'" class="backLink">Back to Locations</router-link>
       <!-- Basic Report Section End -->
       <!-- Advanced Report Section -->
       <h2>Detailed Forecast</h2>
-      <div id="advancedReport" class="advancedReportContainer">
+      <h3 v-if="this.detailedErrorMessage !== ''" class="errorMessage">{{detailedErrorMessage}}</h3>
+      <div v-if="this.detailedWeather !== 0" id="advancedReport" class="advancedReportContainer">
         <div id="Temperature" class="detailedDataCard">
           <h2>Temperature:</h2>
           <div v-if="this.detailedWeather.properties.temperature.values[0]" class="detailedData">
@@ -269,7 +270,9 @@ export default {
         }
       },
       windDirectionFormatted: '',
-      transportWindDirectionFormatted: ''
+      transportWindDirectionFormatted: '',
+      errorMessage: '',
+      detailedErrorMessage: ''
     }
   },
   props: [
@@ -281,11 +284,26 @@ export default {
   components: {
     DailyForecastCard
   },
-  created () {
+  mounted () {
     this.$axios.get(`https://api.weather.gov/gridpoints/${this.Station}/${this.X},${this.Y}`)
-      .then(response => (this.detailedWeather = response.data))
+      .then(response => {
+        this.detailedWeather = response.data
+      })
+      .catch(error => {
+        if (error.request.status === 500) {
+          this.detailedWeather = 0
+          this.detailedErrorMessage = "There has been an error handling your request, please try again, and if the problem persists, it means there's an issue with the weather station."
+        }
+      })
     this.$axios.get(`https://api.weather.gov/gridpoints/${this.Station}/${this.X},${this.Y}/forecast?units=si`)
-      .then(response => (this.basicWeather = response.data))
+      .then(response => {
+        this.basicWeather = response.data
+      })
+      .catch(error => {
+        if (error.request.status === 500) {
+          this.errorMessage = "There has been an error handling your request, please try again, and if the problem persists, it means there's an issue with the weather station."
+        }
+      })
   },
   beforeUpdate () {
     let windDirection = this.detailedWeather.properties.windDirection.values[0].value
@@ -424,7 +442,7 @@ export default {
     border: 1px solid;
     padding: 15px 30px;
     width: fit-content;
-    margin: 80px auto;
+    margin: 30px auto;
     border-radius: 3px;
   }
 

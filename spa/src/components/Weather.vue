@@ -39,14 +39,14 @@
       <div id="customLocation">
         <h2>Custom Location</h2>
         <div id="customLocationInner">
-          <p>Use this tool to request Atmospheric Conditions for a specific location based on GPS coordinates.</p>
+          <p>Use this tool to request Atmospheric Conditions for a specific location based on GPS coordinates*.</p>
           <div>
             <label for="Location">Location:</label>
-            <input v-model="location" type="text" id="Location" name="Location" required/>
+            <input v-on:input="customLocBtnText" v-model="location" type="text" id="Location" name="Location" required />
             <!--<input v-model="location" type="text" id="Location" name="Location" />-->
           </div>
 
-          <button v-on:click="getRequestUrl" name="locationbtn" class="customLocBtn">View Custom Location Report</button>
+          <button v-bind:disabled="!location.match(regex)" v-on:click="getRequestUrl" name="locationbtn" class="customLocBtn">Enter GPS Coordinates above</button>
 
           <div class="customLocProgress">
             <div id="locationRequest" class="invisible">
@@ -60,6 +60,7 @@
             <span id="accessingVacsRequest" class="progressTitle invisible">...Processing Request...</span>
           </div>
         </div>
+        <span class="disclaimer">*VACS only accepts GPS coordinates within the USA, Vault-Tec does not provide its services to communists and socialists.</span>
       </div>
     </div>
   </div>
@@ -73,7 +74,8 @@ export default {
       location: '',
       gridId: '{{Grid ID}}',
       gridX: '{{Grid X}}',
-      gridY: '{{Grid Y}}'
+      gridY: '{{Grid Y}}',
+      regex: /^([-+]?)([\d]{1,2})(((\.)(\d+)(,)))(\s*)(([-+]?)([\d]{1,3})((\.)(\d+))?)$/
     }
   },
   mounted () {
@@ -94,6 +96,13 @@ export default {
         document.getElementById('accessingVacsRequest').classList.remove('invisible')
       }, 2000)
       setTimeout(() => this.$router.push({ name: 'Report', params: { Location: 'Custom', Station: this.gridId, X: this.gridX, Y: this.gridY } }), 3700)
+    },
+    customLocBtnText () {
+      if (this.location.match(/^([-+]?)([\d]{1,2})(((\.)(\d+)(,)))(\s*)(([-+]?)([\d]{1,3})((\.)(\d+))?)$/)) {
+        document.querySelector('.customLocBtn').innerText = 'View Custom Location Report'
+      } else {
+        document.querySelector('.customLocBtn').innerText = 'Enter GPS Coordinates above'
+      }
     }
   }
 }

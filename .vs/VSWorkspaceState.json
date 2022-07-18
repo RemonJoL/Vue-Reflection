@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\spa",
-    "\\spa\\src",
-    "\\spa\\src\\components",
-    "\\spa\\src\\router",
-    "\\spa\\static"
+    "\\spa"
   ],
+  "SelectedNode": "\\spa",
   "PreviewInSolutionExplorer": false
 }

@@ -1,6 +1,7 @@
 <template>
   <div id="basicReport" class="reportContainer">
     <div class="basicforecast">
+      <h3 v-if="this.errorMessage !== ''" class="errorMessage">{{errorMessage}}</h3>
       <div class="dailyForecastOuter" v-for="(period, index) in basicWeather.properties.periods" v-bind:key="index">
         <h3>{{period.name}}</h3>
         <div class="dailyForecastInner">
@@ -35,7 +36,8 @@
 export default {
   name: 'DailyForecastCard',
   props: [
-    'basicWeather'
+    'basicWeather',
+    'errorMessage'
   ]
 }
 </script>
