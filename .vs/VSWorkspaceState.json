@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\spa"
+    "\\spa",
+    "\\spa\\src",
+    "\\spa\\src\\components"
   ],
-  "SelectedNode": "\\spa",
+  "SelectedNode": "\\spa\\src\\main.js",
   "PreviewInSolutionExplorer": false
 }
